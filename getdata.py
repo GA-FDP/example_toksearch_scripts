@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from toksearch import PtDataSignal, Pipeline
+from toksearch import Pipeline
+from toksearch_d3d import PtDataSignal
 from toksearch.sql.mssql import connect_d3drdb
 
 

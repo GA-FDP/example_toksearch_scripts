@@ -1,6 +1,6 @@
 from toksearch import Pipeline, MdsSignal
 
-OUTPUT_DIR = "/mnt/beegfs/users/sammuli/for_craig/eq_data"
+OUTPUT_DIR = "/cscratch/output"
 
 
 def no_errors(rec):

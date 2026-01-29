@@ -7,15 +7,16 @@
 #
 # You can adjust the list of shots and pointnames to suit your needs.
 
-from toksearch.datasource.ptdata_fetch import PtDataHeader
 from toksearch import Pipeline
+from ptdata import PtDataFetcher
+
 
 def _size_of_point(pointname, shot):
-    header = PtDataHeader(pointname, shot)
+    fetcher = PtDataFetcher(pointname, shot)
+    header = fetcher.header
     nwords = header.nwords()
     nbytes = nwords * 2
     return nbytes
-
 
 if __name__ == '__main__':
 
@@ -40,7 +41,7 @@ if __name__ == '__main__':
         rec["total_size"] = sum(sizes.values())
 
 
-    results = pipe.compute_ray()
+    results = pipe.compute_multiprocessing()
 
     print(f"Num results: {len(results)}")
     print(results[0])

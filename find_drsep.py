@@ -43,7 +43,7 @@ if __name__ == '__main__':
     hostname = socket.gethostname() 
     numparts = 8 if hostname.startswith('iris') else None
 
-    results = pipe.compute_spark(numparts=numparts)
+    results = pipe.compute_multiprocessing()
     results = list(results)
     results.sort(key=lambda x: x['shot'])
     

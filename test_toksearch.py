@@ -8,7 +8,8 @@ import numpy as np
 from multiprocessing import Pool
 from IPython import embed
 from toksearch import Pipeline
-from toksearch import MdsSignal, PtDataSignal
+from toksearch import MdsSignal
+from toksearch_d3d import PtDataSignal
 import MDSplus as mds
 
 
@@ -107,22 +108,21 @@ print('='*30,'RAY','='*30)
 # Do an initial run using ray to initialize the ray cluster
 # so we're not timing the startup
 dummy_pipe = Pipeline([1,2,3])
-dummy_results = dummy_pipe.compute_ray()
+dummy_results = dummy_pipe.compute_multiprocessing()
 
 with Timer():
     pipeline = create_pipeline(parallel_shots)
-    #ray_result = pipeline.compute_ray(numparts=8)
     num_nodes = int(os.getenv("SLURM_JOB_NUM_NODES", 1))
     numparts = 2*48*num_nodes
     ray_result = pipeline.compute_ray(numparts=numparts)
     len(ray_result)
 
 
-#with Timer():
-#    print('='*30,'SPARK','='*30)
-#    pipeline = create_pipeline(shots)
-#    spark_result = pipeline.compute_spark(numparts=8)
-#    len(spark_result)
+with Timer():
+    print('='*30,'SPARK','='*30)
+    pipeline = create_pipeline(shots)
+    spark_result = pipeline.compute_spark(numparts=8)
+    len(spark_result)
 
 
 

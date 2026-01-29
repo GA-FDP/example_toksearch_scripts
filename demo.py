@@ -13,7 +13,8 @@ import matplotlib.pyplot as plt
 from scipy.signal import butter, filtfilt, freqz
 from scipy.stats import pearsonr
 
-from toksearch import Pipeline, PtDataSignal, MdsSignal
+from toksearch import Pipeline, MdsSignal
+from toksearch_d3d import PtDataSignal
 from toksearch.sql.mssql import connect_d3drdb
 
 
@@ -45,11 +46,6 @@ def butter_bandpass_filter(data, lower, upper, fs, order=5):
 #    pass
 
 if __name__ == '__main__':
-    print(plt.__file__)
-    print(matplotlib.get_backend())
-    #plt.plot([1,2,3])
-    #plt.show()
-    #sys.exit()
 
     parser = argparse.ArgumentParser()
 
@@ -180,10 +176,8 @@ if __name__ == '__main__':
         return not rec.errors
 
 
-    results = list(pipeline.compute_ray(numparts=500))
+    results = list(pipeline.compute_multiprocessing())
     results.sort(key=lambda r: np.abs(r['corr']), reverse=True)
-
-    #results = pipeline.compute_serial()
 
 
     r = results[len(results)//2]

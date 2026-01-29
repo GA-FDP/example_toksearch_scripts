@@ -4,8 +4,6 @@ import pprint
 import random
 
 import numpy as np
-import ray
-
 
 import scipy.io as sio
 import scipy.signal
@@ -24,45 +22,7 @@ from toksearch_d3d import PtDataSignal
 DEFAULT_GAMMA_DIR = "/mnt/beegfs/users/sammuli/gamma_files"
 MDS_LOCATION = "/mnt/beegfs/archives/mdsplus/codes/~t/~j~i/~h~g/~f~e/~d~c"
 
-OUTPUT_DIR = "/mnt/beegfs/users/sammuli/for_kerr/data"
-
-
-#class GammaDataSource(AbstractDataSource):
-#    def __init__(self, directory):
-#        self.directory = directory
-#
-#    def initialize(self, shot):
-#        pass
-#
-#    def _gamma_file_from_shot(self, shot):
-#        return os.path.join(self.directory, f"gamma_{shot}.mat")
-#
-#    def fetch(self, shot, pointname, **kwargs):
-#        dims = kwargs.get("dims", ("times",))
-#        results = {}
-#
-#        with open(self._gamma_file_from_shot(shot), "rb") as f:
-#            matdata = sio.loadmat(f)
-#
-#            results["data"] = matdata["res"]["gamma"][0][0].reshape((-1,))
-#
-#            if not dims:
-#                dims = []
-#
-#            if len(dims) > 0:
-#                results[dims[0]] = matdata["res"]["times"][0][0].reshape((-1,))
-#
-#            return results
-#
-#    def cleanup_shot(self, shot):
-#        pass
-#
-#    def cleanup(self):
-#        pass
-
-
-#def GammaSignal(directory=DEFAULT_GAMMA_DIR, **signal_kwargs):
-#    return Signal("", GammaDataSource(directory), **signal_kwargs)
+OUTPUT_DIR = "/cscratch"
 
 
 class GammaSignal(Signal):
@@ -379,7 +339,7 @@ if __name__ == "__main__":
 
     pipe, meta = create_pipeline(shots, mode="train")
 
-    results = pipe.compute_ray()
+    results = pipe.compute_multiprocessing()
 
     print(results[0])
 

@@ -1,9 +1,8 @@
 import argparse
 from scipy.io import savemat
-from toksearch import PtDataSignal, Pipeline
+from toksearch import Pipeline
+from toksearch_d3d import PtDataSignal
 from toksearch.sql.mssql import connect_d3drdb
-
-import matplotlib.pyplot as plt
 
 def create_pipeline(max_shots=10):
     
@@ -29,7 +28,7 @@ def create_pipeline(max_shots=10):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--max_shots', '-N', type=int, default=10)
+    parser.add_argument('--max_shots', '-N', type=int, default=15)
 
     args = parser.parse_args()
 
@@ -40,12 +39,10 @@ if __name__ == '__main__':
     if max_shots <= 10:
         results = pipe.compute_serial()
     else:
-        results = pipe.compute_ray()
+        results = pipe.compute_multiprocessing()
 
     to_save = [dict(r) for r in results][:max_shots]
+    print (len(results))
 
     savemat('results.mat', {'results': to_save})
 
-    rec = to_save[0] 
-    plt.plot(rec['z']['times'], rec['z']['data'])
-    plt.show()

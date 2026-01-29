@@ -5,7 +5,7 @@ import time
 shot = 185000
 
 start_time = time.time()
-ece_res = MdsSignal(r"\tece01", "ece").fetch(shot)
+ece_res = MdsSignal(r"\tece01", "ece").fetch(shot)   #TDI expression incorrect/doesn't exist
 elapsed_time = time.time() - start_time
 print(f"Time elapsed fetching ECE data: {elapsed_time:.2f} seconds")
 print(f"Data shape: {ece_res['data'].shape}")

@@ -1,13 +1,14 @@
 import random
 import numpy as np
 import csv
-from toksearch import PtDataSignal, MdsSignal, Pipeline
+from toksearch import MdsSignal, Pipeline
+from toksearch_d3d import PtDataSignal
 from toksearch.sql.mssql import connect_d3drdb
 
 from scipy.signal import butter, filtfilt
 from scipy.signal import freqs
 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 import pprint
 
@@ -109,23 +110,9 @@ if __name__ == '__main__':
 
     pipe = create_pipeline()
 
-    results = list(pipe.compute_ray())
+    results = list(pipe.compute_multiprocessing())
 
-    #random.shuffle(results)
-    #for rec in results[:20]:
-    #    fig, axes = plt.subplots(nrows=3, sharex=True)
-    #    axes[0].plot(rec['ip']['times'], rec['ip']['data'], label='ip')
-    #    axes[0].axvline(rec['t_disrupt'], color='r')
-
-    #    axes[1].plot(rec['zraw']['times'], rec['zraw']['data'], label='zraw')
-    #    axes[1].plot(rec['zwindow']['times'], rec['zwindow']['data'], label='zwindow')
-    #    axes[1].axvline(rec['t_disrupt'], color='r')
-    #    axes[1].legend()
-
-    #    axes[2].plot(rec['dz_dt']['times'], rec['dz_dt']['data'])
-
-    #    fig.suptitle(f'SHOT: {rec["shot"]}, Has VDE? {rec["is_vde"]}')
-    #    plt.show()
+    print ("NUM RESULTS: ", len(results))
             
     velocities = [rec['max_vel'] for rec in results]
 

@@ -8,16 +8,17 @@
 import argparse
 import pprint
 import random
-import matplotlib.pyplot as plt
 import numpy as np
 
-from toksearch import Pipeline, PtDataSignal, MdsSignal
+from toksearch import Pipeline, MdsSignal
+from toksearch_d3d import PtDataSignal
 from toksearch.sql.mssql import connect_d3drdb
 from toksearch.library.flattop import SimpleFlattopFinder
 from toksearch.library.ell1 import L1Fit
 
 
-def create_pipeline(min_shot: int = 184000, max_shot: int = 188028):
+#def create_pipeline(min_shot: int = 184000, max_shot: int = 188028):
+def create_pipeline(min_shot: int = 184000, max_shot: int = 184100):
 
     ########################################################
     # Query for plasma shots
@@ -129,7 +130,7 @@ if __name__ == "__main__":
 
     pipe = create_pipeline(min_shot=args.min_shot)
 
-    results = pipe.compute_ray()
+    results = pipe.compute_multiprocessing()
 
     print(f"NUM RESULTS: {len(results)}")
 
@@ -139,14 +140,3 @@ if __name__ == "__main__":
 
     ds = rec["ds"]
     print(ds)
-
-    to_plot = ['rvsout', 'ip']
-    fig, axes = plt.subplots(nrows=len(to_plot), ncols=1, sharex=True)
-    for i, name in enumerate(to_plot):
-        ds[name].dropna('times').plot(ax=axes[i])
-        #axes[i].axvline(rec['t_start'], color='green')
-        #axes[i].axvline(rec['t_end'], color='green')
-
-        axes[i].axvline(rec['tmin_rvsout'], color='red')
-        axes[i].axvline(rec['tmax_rvsout'], color='red')
-    plt.show()

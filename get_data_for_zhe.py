@@ -172,14 +172,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("num_shots", type=int)
     parser.add_argument(
-        "--savedir", type=str, default="/mnt/beegfs/users/sammuli/for_zhe"
+        "--savedir", type=str, default="/cscratch/gahlm/output"
     )
     parser.add_argument("--efit_tree", type=str, default="efitrt1")
     parser.add_argument(
         "--backend",
         type=str,
         default="multiprocessing",
-        choices=["multiprocessing", "ray", "spark", "serial"],
+        choices=["multiprocessing", "serial"],
     )
     args = parser.parse_args()
 
@@ -189,10 +189,6 @@ if __name__ == "__main__":
 
     if args.backend == "multiprocessing":
         results = pipeline.compute_multiprocessing()
-    elif args.backend == "ray":
-        results = pipeline.compute_ray()
-    elif args.backend == "spark":
-        results = pipeline.compute_spark()
     elif args.backend == "serial":
         results = pipeline.compute_serial()
     else:

@@ -1,8 +1,8 @@
 import pprint
 import numpy as np
 import argparse
-import matplotlib.pyplot as plt
-from toksearch import MdsSignal, PtDataSignal, Pipeline
+from toksearch import MdsSignal, Pipeline
+from toksearch_d3d import PtDataSignal
 
 from toksearch.sql.mssql import connect_d3drdb
 
@@ -51,16 +51,8 @@ if __name__ == '__main__':
     pipe = create_pipeline(args.min_shot)
 
 
-    results = pipe.compute_ray()
+    results = pipe.compute_multiprocessing()
 
     print(f'NUM RESULTS: {len(results)}')
 
-    r = results[0]
-    fig, axes = plt.subplots(nrows=2)
-
-    ii = r['zeff']['data'] < 8.
-
-    axes[0].plot(r['zeff']['times'][ii], r['zeff']['data'][ii])
-    axes[1].plot(r['prad_core']['times'], r['prad_core']['data'])
-    plt.show()
 

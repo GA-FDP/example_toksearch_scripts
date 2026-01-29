@@ -1,7 +1,8 @@
 import argparse
 import os
 
-from toksearch import Pipeline, PtDataSignal, MdsSignal
+from toksearch import Pipeline, MdsSignal
+from toksearch_d3d import PtDataSignal
 
 def create_pipeline(shots):
 
@@ -60,7 +61,7 @@ if __name__ == "__main__":
 
     print(f"NUM RESULTS: {len(results)}/{len(shots)}")
 
-    outdir = "/mnt/beegfs/users/sammuli/for_steve"
+    outdir = "/cscratch"
     os.makedirs(outdir, exist_ok=True)
 
 

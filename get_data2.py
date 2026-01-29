@@ -3,11 +3,11 @@
 import numpy as np
 import argparse
 import sys
-import matplotlib.pyplot as plt
 
 from scipy.io import savemat
 
-from toksearch import PtDataSignal, Pipeline
+from toksearch import Pipeline
+from toksearch_d3d import PtDataSignal
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

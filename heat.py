@@ -4,13 +4,11 @@ import argparse
 import glob
 import pprint
 import numpy as np
-import matplotlib.pyplot as plt
 import xarray as xr
-from toksearch import Pipeline, PtDataSignal, MdsSignal
+from toksearch import Pipeline, MdsSignal
+from toksearch_d3d import PtDataSignal
 
 from toksearch.sql.mssql import connect_d3drdb
-
-import ray
 
 def create_pipeline(args):
     query = """
@@ -72,7 +70,7 @@ def create_pipeline(args):
         rec['times'] = rec['times'][:-100]
         return rec
 
-    power_inputs['echpwrc'] = MdsSignal(r'\echpwrc', 'd3d', user_funcs=[drop_last])
+    power_inputs['echpwrc'] = MdsSignal(r'\echpwrc', 'd3d')
     power_inputs['poh'] = MdsSignal(r'\poh', 'd3d')
 
     ##############################################################################
@@ -107,12 +105,12 @@ def create_pipeline(args):
 
     pipeline.fetch_dataset('ds', scalar_inputs)
 
+
     @pipeline.where
     def no_ds_errors(rec):
         return not rec.errors
 
     pipeline.fetch_dataset('ds_power', power_inputs)
-    #pipeline.fetch_dataset('ds', profile_inputs)
 
 
     @pipeline.map
@@ -144,7 +142,6 @@ def create_pipeline(args):
     if not args.no_align:
         pipeline.align('ds', 'ip', method='pad')
 
-    #pipeline.fetch_dataset('ds', grid_inputs)
 
     @pipeline.map
     def trim(rec):
@@ -212,7 +209,7 @@ if __name__ == '__main__':
     if args.serial:
         results = pipeline.compute_serial()
     else:
-        results = pipeline.compute_ray(numparts=500)
+        results = pipeline.compute_multiprocessing()
 
        
     print(f'FOUND {len(results)} RESULTS')
@@ -237,8 +234,4 @@ if __name__ == '__main__':
 
 
 
-    fig, ax = plt.subplots()
-    ax.plot(r['ds']['tdep']['r'], tdep[tdep.shape[0]//2, :])
-
-    plt.show()
 

@@ -6,8 +6,8 @@ if __name__ == "__main__":
         lines = f.readlines()
 
     shots = [int(line) for line in lines]
+    
 
-    shots = shots
     pipe = Pipeline(shots)
 
     pipe.fetch("pt", MdsSignal(r"\ipmhd", "efit_cake02"))
@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     pipe.keep(["N"])
 
-    results = pipe.compute_ray()
+    results = pipe.compute_multiprocessing()
 
     num_slices = 0
     for r in results:

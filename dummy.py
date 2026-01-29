@@ -5,11 +5,10 @@ import torch
 pipe = Pipeline([1,2,3,4])
 
 
-results = pipe.compute_ray()
+results = pipe.compute_multiprocessing()
 
 available = torch.cuda.is_available()
 
 print(f"IS AVAILABLE: {available}")
-
 
 

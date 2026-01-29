@@ -1,6 +1,7 @@
 import numpy as np
 import random
-from toksearch import Pipeline, PtDataSignal
+from toksearch import Pipeline
+from toksearch_d3d import PtDataSignal
 
 shots = list(range(130000, 182000))
 random.shuffle(shots)
@@ -23,8 +24,7 @@ def no_errors(rec):
 
 pipe.keep(['maxval'])
 
-results = list(pipe.compute_ray(numparts=5000))
-
+results = list(pipe.compute_multiprocessing())
 results.sort(reverse=True, key=lambda x: x['maxval'])
 
 print(f'NUM SHOTS PROCESSED: {len(shots)}')

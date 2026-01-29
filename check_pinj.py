@@ -33,7 +33,7 @@ if __name__ == '__main__':
         return not rec.errors
 
 
-    results = pipeline.compute_ray()
+    results = pipeline.compute_multiprocessing()
 
     print(f'NUM RESULTS: {len(results)}') 
     mismatches = [r.shot for r in results if r['d_shape'] != r['t_shape']]

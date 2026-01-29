@@ -1,6 +1,7 @@
 import pprint
 import numpy as np
-from toksearch import Pipeline, MdsSignal, PtDataSignal
+from toksearch import Pipeline, MdsSignal
+from toksearch_d3d import PtDataSignal
 
 DEFAULT_CHISQ_THRESHOLD = 30
 
